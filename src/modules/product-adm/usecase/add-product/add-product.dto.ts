@@ -1,5 +1,5 @@
 export interface AddProductInputDto {
-    id: string;
+    id?: string;
     name: string;
     description: string;
     purchasePrice: number;
