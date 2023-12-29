@@ -73,8 +73,12 @@ describe("Product Repository", () => {
             updatedAt: new Date(),
         });
 
-        const productFound = await productRepository.find(product.id.id);
+        const productFound = await productRepository.find("1");
 
-        expect(productFound).toEqual(product);
+        expect(product.id.id).toEqual("1");
+        expect(product.name).toEqual("Product 1");
+        expect(product.description).toEqual("Product 1 description");
+        expect(product.purchasePrice).toEqual(100);
+        expect(product.stock).toEqual(10);
     });
 });
