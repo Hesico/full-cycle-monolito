@@ -75,10 +75,10 @@ describe("Product Repository", () => {
 
         const productFound = await productRepository.find("1");
 
-        expect(product.id.id).toEqual("1");
-        expect(product.name).toEqual("Product 1");
-        expect(product.description).toEqual("Product 1 description");
-        expect(product.purchasePrice).toEqual(100);
-        expect(product.stock).toEqual(10);
+        expect(productFound.id.id).toEqual("1");
+        expect(productFound.name).toEqual("Product 1");
+        expect(productFound.description).toEqual("Product 1 description");
+        expect(productFound.purchasePrice).toEqual(100);
+        expect(productFound.stock).toEqual(10);
     });
 });

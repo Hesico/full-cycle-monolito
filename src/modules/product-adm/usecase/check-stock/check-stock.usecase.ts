@@ -1,5 +1,3 @@
-import Id from "../../../@shared/domain/value-object/id.value-object";
-import Product from "../../domain/product.entity";
 import ProductGateway from "../../gateway/product.gateway";
 import { CheckStockInputDto, CheckStockOutputDto } from "./check-stock.dto";
 
