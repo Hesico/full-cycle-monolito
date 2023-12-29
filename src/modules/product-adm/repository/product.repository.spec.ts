@@ -5,7 +5,12 @@ import Id from "../../@shared/domain/value-object/id.value-object";
 import ProductRepository from "./product.repository";
 
 describe("Product Repository", () => {
+    let productRepository: ProductRepository;
     let sequelize: Sequelize;
+
+    beforeAll(async () => {
+        productRepository = new ProductRepository();
+    });
 
     beforeEach(async () => {
         sequelize = new Sequelize({
@@ -24,8 +29,6 @@ describe("Product Repository", () => {
     });
 
     it("should create a product", async () => {
-        const productRepository = new ProductRepository();
-
         const product = new Product({
             id: new Id("1"),
             name: "Product 1",
@@ -49,5 +52,29 @@ describe("Product Repository", () => {
             createdAt: product.createdAt,
             updatedAt: product.updatedAt,
         });
+    });
+
+    it("Should find a product", async () => {
+        const product = new Product({
+            id: new Id("1"),
+            name: "Product 1",
+            description: "Product 1 description",
+            purchasePrice: 100,
+            stock: 10,
+        });
+
+        await ProductModel.create({
+            id: product.id.id,
+            name: product.name,
+            description: product.description,
+            purchasePrice: product.purchasePrice,
+            stock: product.stock,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        });
+
+        const productFound = await productRepository.find(product.id.id);
+
+        expect(productFound).toEqual(product);
     });
 });
