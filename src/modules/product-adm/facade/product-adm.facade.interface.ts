@@ -7,7 +7,7 @@ export interface AddProductFacadeInputDto {
 }
 
 export interface CheckStockFacadeInputDto {
-    productId: string;
+    id: string;
 }
 
 export interface CheckStockFacadeOutputDto {
