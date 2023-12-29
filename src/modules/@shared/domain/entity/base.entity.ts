@@ -15,6 +15,10 @@ export default class Entity {
         return this._id;
     }
 
+    set createdAt(createdAt: Date) {
+        this._createdAt = createdAt;
+    }
+
     get createdAt(): Date {
         return this._createdAt;
     }
