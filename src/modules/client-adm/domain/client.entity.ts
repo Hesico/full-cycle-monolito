@@ -17,7 +17,7 @@ export default class Client extends Entity implements AggregateRoot {
     private _address: string;
 
     constructor(props: clientProps) {
-        super(props.id);
+        super(props.id, props.createdAt, props.updatedAt);
         this._name = props.name;
         this._email = props.email;
         this._address = props.address;
