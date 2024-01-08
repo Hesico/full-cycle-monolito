@@ -14,8 +14,8 @@ const MockRepository = () => ({
     find: jest.fn().mockReturnValue(Promise.resolve(client)),
 });
 
-describe("Add Client Usecase", () => {
-    it("should add a client", async () => {
+describe("Find Client Usecase", () => {
+    it("should find a client", async () => {
         const clientRepository = MockRepository();
         const useCase = new FindClientUsecase(clientRepository);
 
