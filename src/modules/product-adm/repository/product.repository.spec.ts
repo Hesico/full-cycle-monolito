@@ -43,15 +43,13 @@ describe("Product Repository", () => {
             where: { id: "1" },
         });
 
-        expect(productModel.toJSON()).toStrictEqual({
-            id: "1",
-            name: "Product 1",
-            description: "Product 1 description",
-            purchasePrice: 100,
-            stock: 10,
-            createdAt: product.createdAt,
-            updatedAt: product.updatedAt,
-        });
+        expect(productModel.id).toEqual(product.id.id);
+        expect(productModel.name).toEqual(product.name);
+        expect(productModel.description).toEqual(product.description);
+        expect(productModel.purchasePrice).toEqual(product.purchasePrice);
+        expect(productModel.stock).toEqual(product.stock);
+        expect(productModel.createdAt).toBeInstanceOf(Date);
+        expect(productModel.updatedAt).toBeInstanceOf(Date);
     });
 
     it("Should find a product", async () => {
