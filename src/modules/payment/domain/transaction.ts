@@ -37,7 +37,7 @@ export default class Transaction extends Entity implements AggregateRoot {
     }
 
     process(): void {
-        this._amount > 100 ? this.approve() : this.decline();
+        this._amount >= 100 ? this.approve() : this.decline();
     }
 
     get amount(): number {
