@@ -1,17 +1,10 @@
-export interface PaymentFacadeInputDto {
-    orderId: string;
-    amount: number;
-}
+import UsecaseInterface from "../../@shared/domain/usecase/usecase.interface";
+import PaymentFacadeInterface, { PaymentFacadeInputDto, PaymentFacadeOutputDto } from "./facade.interface";
 
-export interface PaymentFacadeOutputDto {
-    transactionId: string;
-    orderId: string;
-    amount: number;
-    status: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+export default class PaymentFacade implements PaymentFacadeInterface {
+    constructor(private _processPaymentUseCase: UsecaseInterface) {}
 
-export default interface PaymentFacadeInterface {
-    process(input: PaymentFacadeInputDto): Promise<PaymentFacadeOutputDto>;
+    process(input: PaymentFacadeInputDto): Promise<PaymentFacadeOutputDto> {
+        return this._processPaymentUseCase.execute(input);
+    }
 }
