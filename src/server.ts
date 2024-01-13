@@ -13,29 +13,40 @@ import StoreProductModel from "./modules/store-catalog/repository/product.model"
 
 import InvoiceModel from "./modules/invoice/repository/invoice.model";
 import InvoiceItemModel from "./modules/invoice/repository/invoiceItem.model";
+import { Umzug } from "umzug";
+import { migrator } from "./infraestructure/config-migrations/migrator";
 
-const sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: ":memory:",
-    logging: false,
-    sync: { force: true },
-});
+let migration: Umzug<any>;
 
-sequelize.addModels([
-    OrderModel,
-    ClientModel,
-    OrderClientModel,
-    TransactionModel,
-    StoreProductModel,
-    InvoiceItemModel,
-    InvoiceModel,
-    OrderProductModel,
-    ProductModel,
-]);
-sequelize.sync().then(() => {
+connectDb();
+
+async function connectDb() {
+    const sequelize = new Sequelize({
+        dialect: "sqlite",
+        storage: ":memory:",
+        logging: false,
+        sync: { force: true },
+    });
+
+    sequelize.addModels([
+        OrderModel,
+        ClientModel,
+        OrderClientModel,
+        TransactionModel,
+        StoreProductModel,
+        InvoiceItemModel,
+        InvoiceModel,
+        OrderProductModel,
+        ProductModel,
+    ]);
+
+    await sequelize.sync({ force: true });
+
+    // await migrator(sequelize).runAsCLI(["up"]);
+
     console.log("Database connected");
 
     app.listen(3000, () => {
         console.log(`Server running at http://localhost:3000`);
     });
-});
+}
