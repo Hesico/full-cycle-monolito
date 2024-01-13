@@ -1,8 +1,8 @@
 import { BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { InvoiceModel } from "./invoice.model";
+import InvoiceModel from "./invoice.model";
 
 @Table({ tableName: "invoiceItems", timestamps: false })
-export class InvoiceItemModel extends Model {
+export default class InvoiceItemModel extends Model {
     @PrimaryKey
     @Column
     id: string;

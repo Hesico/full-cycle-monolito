@@ -3,8 +3,8 @@ import Id from "../../@shared/domain/value-object/id.value-object";
 import InvoiceItem from "../domain/InvoiceItem.entity";
 import Invoice from "../domain/invoice.entity";
 import InvoiceGateway from "../gateway/invoice.gateway";
-import { InvoiceModel } from "./invoice.model";
-import { InvoiceItemModel } from "./invoiceItem.model";
+import InvoiceModel from "./invoice.model";
+import InvoiceItemModel from "./invoiceItem.model";
 
 export default class InvoiceRepository implements InvoiceGateway {
     async add(invoice: Invoice): Promise<void> {

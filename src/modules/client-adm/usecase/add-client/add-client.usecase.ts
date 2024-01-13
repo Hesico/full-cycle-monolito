@@ -3,24 +3,41 @@ import Client from "../../domain/client.entity";
 import ClientGateway from "../../gateway/client.gateway";
 import { AddClientInputDto, AddClientOutputDto } from "./add-client.usecase.dto";
 
-export default class AddClientUsecase {
-    constructor(private clientRepository: ClientGateway) {}
+export default class AddClientUseCase {
+    private _clientRepository: ClientGateway;
+
+    constructor(clientRepository: ClientGateway) {
+        this._clientRepository = clientRepository;
+    }
 
     async execute(input: AddClientInputDto): Promise<AddClientOutputDto> {
-        const client = new Client({
-            id: new Id(input.id),
+        const props = {
+            id: new Id(input.id) || new Id(),
             name: input.name,
             email: input.email,
-            address: input.address,
-        });
+            document: input.document,
+            street: input.street,
+            number: input.number,
+            complement: input.complement,
+            city: input.city,
+            state: input.state,
+            zipCode: input.zipCode,
+        };
 
-        await this.clientRepository.add(client);
+        const client = new Client(props);
+        this._clientRepository.add(client);
 
         return {
             id: client.id.id,
             name: client.name,
             email: client.email,
-            address: client.address,
+            document: client.document,
+            street: client.street,
+            number: client.number,
+            complement: client.complement,
+            city: client.city,
+            state: client.state,
+            zipCode: client.zipCode,
             createdAt: client.createdAt,
             updatedAt: client.updatedAt,
         };

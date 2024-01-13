@@ -1,16 +1,11 @@
 import { Sequelize } from "sequelize-typescript";
 import Id from "../../@shared/domain/value-object/id.value-object";
-import ClientRepository from "./client.repository";
-import { ClientModel } from "./client.model";
 import Client from "../domain/client.entity";
+import ClientRepository from "./client.repository";
+import ClientModel from "./client.model";
 
-describe("Cluent Repository", () => {
-    let clientRepository: ClientRepository;
+describe("ClientRepository test", () => {
     let sequelize: Sequelize;
-
-    beforeAll(async () => {
-        clientRepository = new ClientRepository();
-    });
 
     beforeEach(async () => {
         sequelize = new Sequelize({
@@ -31,42 +26,67 @@ describe("Cluent Repository", () => {
     it("should create a client", async () => {
         const client = new Client({
             id: new Id("1"),
-            name: "Product 1",
-            email: "Product 1 description",
-            address: "Product 1 description",
+            name: "Client 1",
+            email: "x@x.com",
+            document: "0000000",
+            street: "16 avenus",
+            number: "123",
+            complement: "Ap 400",
+            city: "My city",
+            state: "State",
+            zipCode: "89777310",
         });
 
-        await clientRepository.add(client);
+        const repository = new ClientRepository();
+        await repository.add(client);
 
-        const productModel = await ClientModel.findOne({
-            where: { id: "1" },
-        });
+        const clientDb = await ClientModel.findOne({ where: { id: "1" } });
 
-        expect(productModel.id).toEqual(client.id.id);
-        expect(productModel.name).toEqual(client.name);
-        expect(productModel.email).toEqual(client.email);
-        expect(productModel.address).toEqual(client.address);
-        expect(productModel.createdAt).toBeInstanceOf(Date);
-        expect(productModel.updatedAt).toBeInstanceOf(Date);
+        expect(clientDb).toBeDefined();
+        expect(clientDb.id).toBe(client.id.id);
+        expect(clientDb.name).toBe(client.name);
+        expect(clientDb.email).toBe(client.email);
+        expect(clientDb.document).toBe(client.document);
+        expect(clientDb.street).toBe(client.street);
+        expect(clientDb.number).toBe(client.number);
+        expect(clientDb.complement).toBe(client.complement);
+        expect(clientDb.city).toBe(client.city);
+        expect(clientDb.state).toBe(client.state);
+        expect(clientDb.zipCode).toBe(client.zipCode);
+        expect(clientDb.createdAt).toStrictEqual(client.createdAt);
+        expect(clientDb.updatedAt).toStrictEqual(client.updatedAt);
     });
 
-    it("Should find a product", async () => {
-        await ClientModel.create({
+    it("should find a client", async () => {
+        const client = await ClientModel.create({
             id: "1",
-            name: "client 1",
-            email: "client 1 email",
-            address: "client 1 address",
+            name: "Client 1",
+            email: "x@x.com",
+            document: "0000000",
+            street: "16 avenus",
+            number: "123",
+            complement: "Ap 400",
+            city: "My city",
+            state: "State",
+            zipCode: "89777310",
             createdAt: new Date(),
             updatedAt: new Date(),
         });
 
-        const clientRetorned = await clientRepository.find("1");
+        const repository = new ClientRepository();
+        const result = await repository.find(client.id);
 
-        expect(clientRetorned.id.id).toEqual("1");
-        expect(clientRetorned.name).toEqual("client 1");
-        expect(clientRetorned.email).toEqual("client 1 email");
-        expect(clientRetorned.address).toEqual("client 1 address");
-        expect(clientRetorned.createdAt).toBeInstanceOf(Date);
-        expect(clientRetorned.updatedAt).toBeInstanceOf(Date);
+        expect(result.id.id).toEqual(client.id);
+        expect(result.name).toEqual(client.name);
+        expect(result.email).toEqual(client.email);
+        expect(result.document).toEqual(client.document);
+        expect(result.street).toEqual(client.street);
+        expect(result.number).toEqual(client.number);
+        expect(result.complement).toEqual(client.complement);
+        expect(result.city).toEqual(client.city);
+        expect(result.state).toEqual(client.state);
+        expect(result.zipCode).toEqual(client.zipCode);
+        expect(result.createdAt).toStrictEqual(client.createdAt);
+        expect(result.updatedAt).toStrictEqual(client.updatedAt);
     });
 });
