@@ -13,9 +13,6 @@ export default class InvoiceItemModel extends Model {
     @Column({ allowNull: false })
     price: number;
 
-    @BelongsTo(() => InvoiceModel)
-    declare product: InvoiceModel;
-
     @ForeignKey(() => InvoiceModel)
     @Column({ allowNull: false })
     declare invoiceId: string;

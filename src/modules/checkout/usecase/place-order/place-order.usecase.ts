@@ -37,18 +37,11 @@ export default class PlaceOrderUseCase implements UsecaseInterface {
 
     async execute(props: PlaceOrderInputDto): Promise<PlaceOrderOutputDto> {
         const client = await this._clientFacade.findClient({ id: props.clientId });
-
-        console.log("aqui1");
-
         if (!client) throw new Error("Client not found");
 
         await this.validateProducts(props);
 
-        console.log("aqui2");
-
         const products = await Promise.all(props.products.map((p) => this.getProduct(p.productId)));
-
-        console.log("aqui3");
 
         const myClient = new Client({
             id: new Id(client.id),
@@ -73,8 +66,6 @@ export default class PlaceOrderUseCase implements UsecaseInterface {
             amount: order.total,
         });
 
-        console.log("aqui4");
-
         const invoice =
             payment.status === "approved"
                 ? await this._invoiceFacade.generateInvoice({
@@ -96,7 +87,6 @@ export default class PlaceOrderUseCase implements UsecaseInterface {
                   })
                 : null;
 
-        console.log("aqui5");
         payment.status === "approved" && order.aprove();
 
         await this._repository.addOrder(order);
@@ -130,8 +120,6 @@ export default class PlaceOrderUseCase implements UsecaseInterface {
 
     private async getProduct(productId: string): Promise<Product> {
         const product = await this._storeCatalogFacade.find({ id: productId });
-
-        console.log(product);
 
         if (!product) throw new Error("Product not found");
 

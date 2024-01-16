@@ -7,6 +7,7 @@ import CheckoutRepository from "./checkout.repository";
 import ClientModel from "./client.model";
 import OrderModel from "./order.model";
 import ProductModel from "./product.model";
+import OrderProductModel from "./orderProduct.model";
 
 describe("CheckoutRepository test", () => {
     let sequelize: Sequelize;
@@ -27,43 +28,74 @@ describe("CheckoutRepository test", () => {
             sync: { force: true },
         });
 
-        sequelize.addModels([OrderModel, ClientModel, ProductModel]);
-        await sequelize.sync();
+        sequelize.addModels([OrderProductModel, OrderModel, ClientModel, ProductModel]);
+
+        await sequelize.sync({ force: true });
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
         await sequelize.close();
     });
 
     it("should add a order", async () => {
-        const OrderProps = {
-            id: new Id("1"),
-            client: new Client({
-                id: new Id("1"),
-                name: "client name",
-                email: "test@domain.com",
-                document: "0000000",
-                street: "16 avenus",
-                number: "123",
-                complement: "Ap 400",
-                city: "My city",
-                state: "State",
-                zipCode: "89777310",
+        const client = new Client({
+            id: new Id(),
+            name: "client name",
+            email: "test@domain.com",
+            document: "0000000",
+            street: "16 avenus",
+            number: "123",
+            complement: "Ap 400",
+            city: "My city",
+            state: "State",
+            zipCode: "89777310",
+        });
+
+        const products = [
+            new Product({
+                id: new Id(),
+                name: "first product",
+                description: "first product description",
+                salesPrice: 10,
             }),
-            products: [
-                new Product({
-                    id: new Id("1"),
-                    name: "first product",
-                    description: "first product description",
-                    salesPrice: 10,
-                }),
-                new Product({
-                    id: new Id("2"),
-                    name: "second product",
-                    description: "second product description",
-                    salesPrice: 20,
-                }),
-            ],
+            new Product({
+                id: new Id(),
+                name: "second product",
+                description: "second product description",
+                salesPrice: 20,
+            }),
+        ];
+
+        await ClientModel.create({
+            id: client.id.id,
+            name: client.name,
+            email: client.email,
+            document: client.document,
+            street: client.street,
+            number: client.number,
+            complement: client.complement,
+            city: client.city,
+            state: client.state,
+            zipCode: client.zipCode,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        });
+
+        await ProductModel.bulkCreate(
+            products.map((p) => ({
+                id: p.id.id,
+                name: p.name,
+                description: p.description,
+                salesPrice: p.salesPrice,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            }))
+        );
+
+        const OrderProps = {
+            id: new Id(),
+            client: client,
+            products: products,
             status: "status 1",
         };
 

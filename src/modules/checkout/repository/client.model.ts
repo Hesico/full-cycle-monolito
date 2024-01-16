@@ -34,10 +34,6 @@ export default class ClientModel extends Model {
     @Column({ allowNull: false })
     zipCode: string;
 
-    @ForeignKey(() => OrderModel)
-    @Column({ allowNull: true })
-    orderId: string;
-
     @Column({ allowNull: false })
     createdAt: Date;
 
