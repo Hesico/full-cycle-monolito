@@ -22,7 +22,7 @@ export default class ProductsController {
             res.status(201).json({
                 status: "sucess",
                 data: {
-                    data: output,
+                    product: output,
                 },
             });
         } catch (error) {
