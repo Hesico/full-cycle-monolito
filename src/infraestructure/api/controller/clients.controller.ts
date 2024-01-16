@@ -27,7 +27,7 @@ export default class ClientsController {
             res.status(201).json({
                 status: "sucess",
                 data: {
-                    data: output,
+                    client: output,
                 },
             });
         } catch (error) {
