@@ -20,7 +20,7 @@ export default class CheckoutController {
             res.status(201).json({
                 status: "sucess",
                 data: {
-                    data: output,
+                    order: output,
                 },
             });
         } catch (error) {
