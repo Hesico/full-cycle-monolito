@@ -5,6 +5,7 @@ import { ProductModel } from "./modules/product-adm/repository/product.model";
 import OrderModel from "./modules/checkout/repository/order.model";
 import OrderClientModel from "./modules/checkout/repository/client.model";
 import OrderProductModel from "./modules/checkout/repository/product.model";
+import OrderProductRelationModel from "./modules/checkout/repository/orderProduct.model";
 
 import ClientModel from "./modules/client-adm/repository/client.model";
 import TransactionModel from "./modules/payment/repository/transaction.model";
@@ -13,10 +14,7 @@ import StoreProductModel from "./modules/store-catalog/repository/product.model"
 
 import InvoiceModel from "./modules/invoice/repository/invoice.model";
 import InvoiceItemModel from "./modules/invoice/repository/invoiceItem.model";
-import { Umzug } from "umzug";
 import { migrator } from "./infraestructure/config-migrations/migrator";
-
-let migration: Umzug<any>;
 
 connectDb();
 
@@ -29,6 +27,7 @@ async function connectDb() {
     });
 
     sequelize.addModels([
+        OrderProductRelationModel,
         OrderModel,
         ClientModel,
         OrderClientModel,
@@ -40,9 +39,7 @@ async function connectDb() {
         ProductModel,
     ]);
 
-    await sequelize.sync({ force: true });
-
-    // await migrator(sequelize).runAsCLI(["up"]);
+    await migrator(sequelize).runAsCLI(["up"]);
 
     console.log("Database connected");
 

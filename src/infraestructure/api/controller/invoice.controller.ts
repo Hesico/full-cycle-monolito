@@ -14,10 +14,10 @@ export default class InvoiceController {
                 id: req.params.id,
             });
 
-            res.status(201).json({
+            res.status(200).json({
                 status: "sucess",
                 data: {
-                    data: output,
+                    invoice: output,
                 },
             });
         } catch (error) {
